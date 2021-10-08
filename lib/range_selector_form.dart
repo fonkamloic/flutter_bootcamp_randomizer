@@ -7,9 +7,14 @@ typedef IntValueSetter = void Function(int);
 
 class RangeSelectorForm extends ConsumerWidget {
   const RangeSelectorForm({
+    required this.maxValueSetter,
+    required this.minValueSetter,
     Key? key,
     required this.formKey,
   }) : super(key: key);
+
+  final IntValueSetter maxValueSetter;
+  final IntValueSetter minValueSetter;
 
   final GlobalKey<FormState> formKey;
   @override
@@ -25,13 +30,13 @@ class RangeSelectorForm extends ConsumerWidget {
             RangeSelectorTextFormField(
               labelText: 'Minimum',
               intValueSetter: (val) =>
-                  context.read(randomizerProvider.notifier).setMin(val),
+                  minValueSetter(val),
             ),
             SizedBox(height: 10),
             RangeSelectorTextFormField(
               labelText: 'Maximum',
               intValueSetter: (val) =>
-                  context.read(randomizerProvider.notifier).setMax(val),
+                 maxValueSetter(val),
             )
           ],
         ),
@@ -52,7 +57,7 @@ class RangeSelectorTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField( 
+    return TextFormField(
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
         labelText: labelText,
