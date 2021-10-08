@@ -2,12 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_foundations/randomizer_page.dart';
 import 'package:flutter_foundations/range_selector_form.dart';
 
-final formKey = GlobalKey<FormState>();
-
 class RangeSelectorPage extends StatelessWidget {
-  const RangeSelectorPage({
+  RangeSelectorPage({
     Key? key,
+    // required this.minValueSetter,
+    // required this.maxValueSetter,
+    // required this.formKey,
   }) : super(key: key);
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  // final IntValueSetter minValueSetter;
+  // final IntValueSetter maxValueSetter;
+
+  int _max = 0, _min = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +24,8 @@ class RangeSelectorPage extends StatelessWidget {
       ),
       body: RangeSelectorForm(
         formKey: formKey,
+        minValueSetter: (value) => _min = value,
+        maxValueSetter: (value) => _max = value,
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.arrow_forward),
@@ -26,7 +35,10 @@ class RangeSelectorPage extends StatelessWidget {
 
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => const RandomizerPage(),
+                builder: (context) => RandomizerPage(
+                  max: _max,
+                  min: _min,
+                ),
               ),
             );
           }
