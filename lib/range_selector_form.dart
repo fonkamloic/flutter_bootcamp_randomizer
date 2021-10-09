@@ -1,25 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_foundations/bloc/randomizer_bloc.dart';
 import 'package:flutter_foundations/main.dart';
 import 'package:flutter_foundations/randomizer_state_notifier.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 typedef IntValueSetter = void Function(int);
 
-class RangeSelectorForm extends ConsumerWidget {
+class RangeSelectorForm extends StatelessWidget {
   const RangeSelectorForm({
-    required this.maxValueSetter,
-    required this.minValueSetter,
     Key? key,
     required this.formKey,
   }) : super(key: key);
 
-  final IntValueSetter maxValueSetter;
-  final IntValueSetter minValueSetter;
-
   final GlobalKey<FormState> formKey;
   @override
-  Widget build(BuildContext context, ScopedReader ref) {
-    final randomizer = ref(randomizerProvider);
+  Widget build(BuildContext context) {
+    // final randomizer = ref(randomizerProvider);
     return Form(
       key: formKey,
       child: Padding(
@@ -28,16 +24,16 @@ class RangeSelectorForm extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             RangeSelectorTextFormField(
-              labelText: 'Minimum',
-              intValueSetter: (val) =>
-                  minValueSetter(val),
-            ),
+                labelText: 'Minimum',
+                intValueSetter: (val) => context
+                    .read<RandomizerBloc>()
+                    .add(RandomizerEvent.setMin(min: val))),
             SizedBox(height: 10),
             RangeSelectorTextFormField(
-              labelText: 'Maximum',
-              intValueSetter: (val) =>
-                 maxValueSetter(val),
-            )
+                labelText: 'Maximum',
+                intValueSetter: (val) => context
+                    .read<RandomizerBloc>()
+                    .add(RandomizerEvent.setMax(max: val)))
           ],
         ),
       ),
