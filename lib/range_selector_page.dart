@@ -14,8 +14,6 @@ class RangeSelectorPage extends StatelessWidget {
   // final IntValueSetter minValueSetter;
   // final IntValueSetter maxValueSetter;
 
-  int _max = 0, _min = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,21 +22,15 @@ class RangeSelectorPage extends StatelessWidget {
       ),
       body: RangeSelectorForm(
         formKey: formKey,
-        minValueSetter: (value) => _min = value,
-        maxValueSetter: (value) => _max = value,
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.arrow_forward),
+        child: const Icon(Icons.arrow_forward),
         onPressed: () {
           if (formKey.currentState?.validate() == true) {
             formKey.currentState?.save();
-
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => RandomizerPage(
-                  max: _max,
-                  min: _min,
-                ),
+                builder: (context) => const RandomizerPage(),
               ),
             );
           }
