@@ -5,14 +5,13 @@ import 'package:flutter_foundations/main.dart';
 import 'package:flutter_foundations/randomizer_state_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RandomizerPage extends ConsumerWidget {
+class RandomizerPage extends StatelessWidget {
   const RandomizerPage({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ScopedReader ref) {
-    final randomizer = ref(randomizerProvider);
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Randomizer'),
@@ -21,7 +20,8 @@ class RandomizerPage extends ConsumerWidget {
         child: Consumer(
           builder: (context, ref, child) {
             return Text(
-                randomizer.generatedNumber?.toString() ?? 'Generate a number',
+                ref(randomizerProvider).generatedNumber?.toString() ??
+                    'Generate a number',
                 style: const TextStyle(fontSize: 42));
           },
         ),
