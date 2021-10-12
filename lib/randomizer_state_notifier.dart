@@ -21,17 +21,19 @@ class RandomizerStateNotifier extends StateNotifier<RandomizerState> {
   final _randomGenerator = Random();
 
   void generateRandomNumber() {
-    state = state.copyWith(
-      generatedNumber:
-          state.min + _randomGenerator.nextInt(state.max + 1 - state.min),
-    );
+    final newVal =
+        state.min + _randomGenerator.nextInt(state.max + 1 - state.min);
+    if (newVal != state.generatedNumber) {
+      state = state.copyWith(generatedNumber: newVal);
+    }
+    //else do nothing
   }
 
-  void setMin(int val){
-    state = state.copyWith(min:val);
+  void setMin(int val) {
+    state = state.copyWith(min: val);
   }
-  void setMax(int val){
-    state = state.copyWith(max:val);
+
+  void setMax(int val) {
+    state = state.copyWith(max: val);
   }
 }
-
